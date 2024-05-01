@@ -50,11 +50,12 @@ export const signin = async(req,res,next) => {
             process.env.JWT_SECRET,
         )
             const {password:pass, ...rest} = validUser._doc
-        res.status(200).cookie("access_token",token, {
+        res.status(200).cookie("token",token, {
             httpOnly: true}).json({
                 message:"signin successfully",
                 // validUser
-                rest
+                rest,
+                // token
             })
         
     } catch (error) {
