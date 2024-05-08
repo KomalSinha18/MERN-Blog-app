@@ -14,10 +14,12 @@ import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute'
 import CreatePost from './pages/CreatePost'
 import UpdatePost from './pages/UpdatePost'
 import PostPages from './pages/PostPages'
+import ScrollToTop from './components/ScrollToTop'
 
 export default function App() {
   return (
     <BrowserRouter>
+    <ScrollToTop/>
     <Header/>
     <Routes>
             <Route path='/' element={<Home/>}/>
