@@ -1,7 +1,7 @@
 import { Alert, Button, Textarea } from 'flowbite-react'
 import React, { useEffect } from 'react'
 import {useSelector} from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link , useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import Comment from './Comment'
 
@@ -10,6 +10,7 @@ export default function CommentSection({postId}) {
     const [comment, setComment] = useState('')
     const [commentError, setCommentError] = useState(null)
     const [comments, setComments] = useState([])
+    const navigate = useNavigate()
     // console.log(comments);
     console.log(comments.length);
     const handleSubmit = async(e) => {
@@ -23,7 +24,10 @@ export default function CommentSection({postId}) {
                 headers:{
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({content:comment,postId,userId:currentUser._id})
+                body: JSON.stringify({
+                    content:comment,
+                    postId,
+                    userId:currentUser._id})
             })
             const data = await res.json()
             console.log(data);
@@ -56,6 +60,34 @@ try {
      getComments()
     }, [postId])
     
+    const handleLike = async (commentId) => {
+        try {
+          if (!currentUser) {
+            navigate('/sign-in');
+            return;
+          }
+          const res = await fetch(`/api/comment/likeComment/${commentId}`, {
+            method: 'PUT',
+          });
+          if (res.ok) {
+            const data = await res.json();
+            console.log(data)
+            setComments(
+              comments.map((comment) =>
+                comment._id === commentId
+                  ? {
+                      ...comment,
+                      likes: data.comment.likes,
+                      numberOfLikes: data.comment.likes.length,
+                    }
+                  : comment
+              )
+            );
+          }
+        } catch (error) {
+          console.log(error.message);
+        }
+      };
   return (
     <div className='max-w-2xl mx-auto w-full'>
         {
@@ -114,12 +146,9 @@ try {
                     </div>
                 </div>
                     
-                       { comments.map((comment) => {
-                           return <Comment 
-                           key={comment._id}
-                            comment={comment}/>
-                        })
-                    }
+                {comments.map((comment,index) => (
+           <Comment key={index} comment={comment} onLike={handleLike} />
+          ))}
                 </>
 
             )

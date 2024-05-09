@@ -6,6 +6,7 @@ import authRoutes from "./routes/auth.route.js"
 import postRoutes from './routes/post.route.js'
 import commentRoutes from './routes/comment.route.js'
 import cookieParser from "cookie-parser";
+// import bodyParser from "body-parser";
 
 dotenv.config()
 
@@ -26,6 +27,7 @@ app.use(cookieParser())
 app.listen(4000, () =>{
     console.log("server is running on port 4000");
 })
+// app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/api/user', userRoutes)
 app.use('/api/auth', authRoutes)
