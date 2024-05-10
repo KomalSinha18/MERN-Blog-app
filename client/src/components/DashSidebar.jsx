@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import { signoutSuccess } from '../redux/user/userSlice';
 import { HiDocumentText } from "react-icons/hi";
 import {useSelector} from 'react-redux'
-import { HiOutlineUserGroup } from "react-icons/hi";
+import { HiOutlineUserGroup,HiAnnotation } from "react-icons/hi";
 
 export default function DashSidebar() {
   const dispatch = useDispatch()
@@ -66,6 +66,7 @@ export default function DashSidebar() {
           }
            {
             currentUser.isAdmin && (
+              <>
               <Link to='/dashboard?tab=users'>
           <Sidebar.Item
           active = {tab === 'users'}
@@ -75,8 +76,20 @@ export default function DashSidebar() {
             Users
           </Sidebar.Item>
           </Link>
+           
+           <Link to='/dashboard?tab=comments'>
+             <Sidebar.Item
+               active={tab === 'comments'}
+               icon={HiAnnotation}
+               as='div'
+             >
+               Comments
+             </Sidebar.Item>
+           </Link>
+           </>
             )
           }
+          
           <Sidebar.Item  icon={HiArrowSmRight} className='cursor-pointer' onClick={handleSignout}>
           Sign Out
           </Sidebar.Item>
