@@ -6,7 +6,7 @@ import { HiUser } from "react-icons/hi";
 import { HiArrowSmRight } from "react-icons/hi";
 import { useDispatch } from 'react-redux';
 import { signoutSuccess } from '../redux/user/userSlice';
-import { HiDocumentText } from "react-icons/hi";
+import { HiDocumentText,HiChartPie } from "react-icons/hi";
 import {useSelector} from 'react-redux'
 import { HiOutlineUserGroup,HiAnnotation } from "react-icons/hi";
 
@@ -44,6 +44,19 @@ export default function DashSidebar() {
    <Sidebar className="w-full md:w-56">
     <Sidebar.Items>
         <Sidebar.ItemGroup className="flex flex-col gap-1">
+          {
+            currentUser && currentUser.isAdmin && (
+              <Link to='/dashboard?tab=dash'>
+              <Sidebar.Item
+                active={tab === 'dash' || !tab}
+                icon={HiChartPie}
+                as='div'
+              >
+                Dashboard
+              </Sidebar.Item>
+              </Link>
+            )
+          }
           <Link to='/dashboard?tab=profile'>
 
           <Sidebar.Item active={tab === 'profile'} icon={HiUser} label={currentUser.isAdmin ? 'Admin' : 'User'} labelColor='dark'
